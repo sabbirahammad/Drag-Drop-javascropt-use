@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/54330f0ee9.js" crossorigin="anonymous"></script>
+    <title>project5</title>
+    <style>
+         body{
+            margin: 0px;
+            padding: 0px;
+            background-color: #efe0e0;
+         }
+        .main{
+            background-color: blanchedalmond;
+            border: 1px solid black;
+            width: 500px;
+            height: 320px;
+            box-shadow: 2px 4px rgb(61, 176, 214);
+            border-radius: 5px;
+            position: relative;
+            margin: 0 auto;
+            top: 150px;
+            align-items: center;
+        }
+        
+        .font{
+            font-size: 60px;
+            color: cyan;
+            text-align: center;
+            padding: 15px;
+            margin-top: 15px;
+        }
+        .text{
+            font-size: 35px;
+            text-align: center;
+            font-weight: bold;
+            font-family: 'Times New Roman';
+            position: relative;
+            bottom: 35px;
+        }
+        span{
+            position: relative;
+            bottom: 20px;
+            color: #ff7200;
+        }
+        .bu{
+            text-align: center;
+           position: relative;
+           bottom: 20px;
+        }
+        .main.act{
+            border-radius: 10px;
+            border: 5px solid rgb(49, 8, 233);
+        }
+        img{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <div class="font">
+            <i class="fa-regular fa-images"></i>
+        </div>
+        <div class="text">
+            <h3>Drag & Drop</h3>
+            <span>OR</span>
+        </div>
+       <div class="bu">
+        <button>Browser file</button>
+        <input type="file" hidden>
+       </div>
+    </div>
+    <script>
+        let main=document.querySelector(".main"),
+        text=main.querySelector("h3"),
+        button=main.querySelector("button"),
+        input=main.querySelector("input");
+
+        var myfile;
+
+        button.onclick=()=>{
+            input.click();
+        }
+        input.addEventListener("change",function(){
+            myfile=this.files[0];
+            main.classList.add("act");
+            showMe();
+        });
+        main.addEventListener("dragover",(e)=>{
+            e.preventDefault();
+            main.classList.add("act");
+            text.textContent="Release to upload file";
+        })
+        main.addEventListener("dragleave",()=>{
+            main.classList.remove("act");
+            text.textContent="Drag & Drop";
+        })
+        main.addEventListener("drop",(e)=>{
+            e.preventDefault();
+            myfile=e.dataTransfer.files[0];
+            showMe();
+        })
+        function showMe(){
+            let file=myfile.type;
+            var ex=["image/jpeg","image/jpg","image/png"];
+
+           if(ex.includes(file)){
+            var filereader=new FileReader();
+            filereader.onload = () =>{
+                let imgurl=filereader.result;
+                let img=`<img src="${imgurl}" alt="">`;
+                main.innerHTML=img;
+            }
+            filereader.readAsDataURL(myfile);
+           }
+           else{
+            alert("এটা পিক,তোর নানির হেডা এটা");
+            main.classList.add("act");
+            text.textContent="Drag & Drop";
+           }
+        }
+    </script>
+</body>
+</html>
